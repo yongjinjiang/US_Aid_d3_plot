@@ -128,7 +128,7 @@ d3.json(`/country/${country}`).then(function(AidData) {
   .enter().append('g');
 
 
-  var labelsGroup_x = chartGroup2.append("g")
+var labelsGroup_x = chartGroup2.append("g")
   .attr("transform", `translate(${chartWidth/2}, ${chartHeight})`);
   // Create group template for  3 y- axis labels
 var labelsGroup_y = chartGroup2.append("g")
@@ -248,6 +248,10 @@ function BackToM(){
   // if (!svg.empty()){svg.remove()}  
   d3.select("#scatter_2").html("")
   document.getElementById("scatter_2").appendChild(svg_copy);
+  
+  chartGroup2 =d3.select("#scatter_2>svg>g ")
+  // jQuery( "parent > child" )
+
 }
 
 function BackToM_ini(){
