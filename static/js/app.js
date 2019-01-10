@@ -1,5 +1,22 @@
-console.log('here')
-console.log('here2')
+
+
+  bubble_line1=d3.select("#bubble")
+   .append('div')
+   .attr('id','button2')
+
+bubble_line2= d3.select("#bubble")
+    .append('div')
+    .attr("class","row")
+
+  bubble_line2.append("div")
+   .attr("class","col-xs-12  col-md-9")  
+   .append("div")
+   .attr('id',"scatter_2")
+
+   bubble_line2.append("div")
+   .attr("class","col-xs-12  col-md-3")  
+   .append("div")
+   .attr('id',"selected_country_table2")
 
 var plot_first_country=true
 var color_Label=-1;
