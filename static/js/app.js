@@ -7,6 +7,11 @@ var color_panel=["red","green","blue","yellow","cyan","black"]
 var first_single_plot=1
 var svg_copy=d3.select("Meiyou")
 var countries
+var table2=d3.select("MeiYou")
+var tbody=d3.select("MeiYou")
+
+var min_val=0
+var max_val=1000000000
 
   var svgHeight = window.innerHeight*7/10;
   var svgWidth = window.innerWidth*8/10;
@@ -21,14 +26,7 @@ var countries
   var chartWidth = svgWidth - margin.left - margin.right;
   var chartHeight = svgHeight - margin.top - margin.bottom;
 
-
-  svg=d3.select("#scatter_2")
-  .append("svg")
-  .attr("width", svgWidth)
-  .attr("height", svgHeight)
-
-  var chartGroup2 = svg.append("g")
-  .attr("transform", `translate(${margin.left}, ${margin.top})`)
+  var chartGroup2=d3.select("MeiYou")
 
   // svg1=d3.select("#scatter_1")
   // .append("svg")
@@ -57,18 +55,31 @@ var parseTime = d3.timeParse("%Y");
 
   xLinearScale=xScale();
   var bottomAxis = d3.axisBottom(xLinearScale);
+
+  
+
+function initialize_axis(){
+
+  svg=d3.select("#scatter_2")
+  .append("svg")
+  .attr("width", svgWidth)
+  .attr("height", svgHeight)
+
+  chartGroup2 = svg.append("g")
+  .attr("transform", `translate(${margin.left}, ${margin.top})`)
+
+
     var xAxis = chartGroup2.append("g")
     .classed("x-axis", true)
    //  .attr("transform", `translate(${margin.left}, ${chartHeight+margin.top})`)
    .attr("transform", `translate(0, ${chartHeight})`)
     .call(bottomAxis);
- 
+
 
 // min_val=d3.min(AidData,data=>data.constant_amount)
 // max_val=d3.max(AidData,data=>data.constant_amount)
 
-min_val=0
-max_val=1000000000
+
 function yScale(){
   // create scales
   var yLinearScale = d3.scaleLinear()
@@ -83,6 +94,12 @@ var  yAxis= chartGroup2.append("g")
 // .attr("transform", `translate(${margin.left}, ${margin.top})`)
 .classed("y-axis", true)
 .call(leftAxis);
+
+}
+
+
+initialize_axis()
+
 
    
 var color_N=1
@@ -99,6 +116,7 @@ d3.json(`/country/${country}`).then(function(AidData) {
       data.fiscal_year= parseTime(data.fiscal_year);
     });
 
+   
 
     // chartGroup2=d3.select("#svg")
     // var chartGroup2 = svg.append("g")
@@ -183,8 +201,8 @@ var toolTip = d3.tip()
 })
 }
 
-
-var table2 = d3.selectAll("#selected_country_table2")
+function create_table(){
+ table2 = d3.selectAll("#selected_country_table2")
              .append('div').attr("class","col-md-12").append('div')
               .attr("id","table-area")
               .style("text-align", "center")
@@ -202,12 +220,12 @@ thead.append('th')
 .style("min-width","190px")
   .text("selected contries:");
 
-var tbody=table2.append('tbody');
+tbody=table2.append('tbody');
 Legend_label=tbody.append('tr')
 
-var tfoot=table2.append("tfoot").append('tr')
-tfoot.append('td')
-tfoot.append('td').append("div")
+var tfoot1=table2.append("tfoot").append('tr')
+tfoot1.append('td')
+tfoot1.append('td').append("div")
 .append("button")
 .attr('id',`myBtn`)
 .attr("value",`back`)
@@ -215,16 +233,40 @@ tfoot.append('td').append("div")
 .text('Back to multiple plot')
 .style("color","#cc33ff")
 
-
+var tfoot2=table2.append("tfoot").append('tr')
+tfoot2.append('td')
+tfoot2.append('td').append("div")
+.append("button")
+.attr('id',`myBtn`)
+.attr("value",`back`)
+.attr("onclick","BackToM_ini()")
+.text('refresh multiple plot')
+.style("color","#cc33ff")
+}
 
 function BackToM(){
   // if (!svg.empty()){svg.remove()}  
   d3.select("#scatter_2").html("")
   document.getElementById("scatter_2").appendChild(svg_copy);
+}
 
+function BackToM_ini(){
+  // if (!svg.empty()){svg.remove()}  
+  d3.select("#scatter_2").html("")
+  d3.select("#selected_country_table2").html("")
+
+  plot_first_country=false
+ color_Label=-1;
+ min_val=0
+max_val=1000000000
+countries=[]
+ initialize_axis()
+ create_table()
+  // document.getElementById("scatter_2").appendChild(svg_copy);
 }
 
 
+create_table()
 
 if (plot_first_country===true){
 color_Label=color_Label+1;
