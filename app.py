@@ -51,7 +51,7 @@ def index():
 
 
 
-countries=pd.read_csv("./country_name.csv")
+countries=pd.read_csv("./country_name1.csv")
 
 
 @app.route("/names")
